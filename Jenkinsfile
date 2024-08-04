@@ -1,19 +1,16 @@
 pipeline {
-  agent {
-    dockerfile {
-      filename 'Dockerfile'
-    }
-  }
+  agent any
   stages {
-    stage('Test') {
+    stage('Example') {
       steps {
         script {
-          // Convert Windows paths to Unix-style paths
-          sh '''
-            echo "Working directory is: $(pwd)"
-            node --version
-            git --version
-            curl --version
+          // Print the workspace path
+          echo "Workspace directory: ${env.WORKSPACE}"
+          
+          // Run a shell command
+          bat '''
+            echo "Current directory: $(pwd)"
+            ls -la ${WORKSPACE}
           '''
         }
       }
