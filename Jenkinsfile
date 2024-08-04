@@ -8,8 +8,9 @@ pipeline {
     stage('Test') {
       steps {
         script {
-          // Use a shell script with Windows path compatibility
-          bat '''
+          // Convert Windows paths to Unix-style paths
+          sh '''
+            echo "Working directory is: $(pwd)"
             node --version
             git --version
             curl --version
