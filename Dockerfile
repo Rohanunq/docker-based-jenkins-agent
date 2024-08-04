@@ -1,20 +1,10 @@
-# Use a base image with Java and Maven preinstalled
-FROM maven:3.8.6-openjdk-17-slim
+# Use a base image with Maven and OpenJDK
+FROM openjdk:17-jdk-slim
 
-# Install dependencies
+# Install Maven
 RUN apt-get update && \
-    apt-get install -y \
-    curl \
-    unzip \
-    gnupg \
-    software-properties-common \
-    && rm -rf /var/lib/apt/lists/*
-
-# # Install AWS CLI
-# RUN curl "https://d1uj6qtbmh3dt5.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-#     unzip awscliv2.zip && \
-#     sudo ./aws/install && \
-#     rm awscliv2.zip
+    apt-get install -y maven && \
+    rm -rf /var/lib/apt/lists/*
 
 # # Install Helm
 # RUN curl https://baltocdn.com/helm/signing.asc | apt-key add - && \
@@ -22,6 +12,12 @@ RUN apt-get update && \
 #     echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm.list && \
 #     apt-get update && \
 #     apt-get install -y helm
+
+# # Install AWS CLI
+# RUN curl "https://d1uj6qtbmh3dt5.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+#     unzip awscliv2.zip && \
+#     sudo ./aws/install && \
+#     rm awscliv2.zip
 
 # Set up user and workspace
 RUN useradd -m jenkins
