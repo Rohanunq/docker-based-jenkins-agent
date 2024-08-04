@@ -5,7 +5,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    // Build the Docker image using Dockerfile in the repository
+                    // Build the Docker image
                     docker.build('jenkins-agent:latest')
                 }
             }
@@ -14,22 +14,18 @@ pipeline {
         stage('Run Pipeline in Docker Container') {
             steps {
                 script {
-                    // Define the Docker image with the name and tag
+                    // Define the Docker image
                     def dockerImage = docker.image('jenkins-agent:latest')
 
                     // Run the Docker container and execute tasks inside it
                     dockerImage.inside {
+                        // Set working directory correctly
+                        def workingDir = 'C:/ProgramData/Jenkins/.jenkins/workspace/docker-based-jenkins-agent/'
+
                         // Run tasks inside the container
-                        checkout scm
-                        
-                        // Execute your pipeline tasks
+                        sh "echo 'Running in container working dir: ${workingDir}'"
                         sh 'mvn clean install'
                         sh 'mvn test'
-                        
-                        // Deploy commands
-                        sh 'helm upgrade --install my-release my-chart/'
-                        // Or AWS CLI commands
-                        // sh 'aws s3 cp my-artifact s3://my-bucket/'
                     }
                 }
             }
