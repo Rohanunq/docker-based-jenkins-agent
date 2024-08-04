@@ -18,9 +18,9 @@ pipeline {
                     def dockerImage = docker.image('jenkins-agent:latest')
 
                     // Run the Docker container and execute tasks inside it
-                    dockerImage.inside('-v C:/ProgramData/Jenkins/.jenkins/workspace/docker-based-jenkins-agent:/workspace -w /workspace') {
+                    dockerImage.inside('-v C:\ProgramData\Jenkins\.jenkins\workspace\docker-based-jenkins-agent:\workspace -w \workspace') {
                         // Set working directory correctly
-                        sh 'echo Running inside container at: /workspace'
+                        sh 'echo Running inside container at: \workspace'
 
                         // Run tasks inside the container
                         sh 'mvn clean install'
