@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image
-                    docker.build('jenkins-agent:latest')
+                    docker.build('jenkins-agent:latest', '-f Dockerfile .')
                 }
             }
         }
@@ -18,12 +18,11 @@ pipeline {
                     def dockerImage = docker.image('jenkins-agent:latest')
 
                     // Run the Docker container and execute tasks inside it
-                    dockerImage.inside {
+                    dockerImage.inside('-v C:/ProgramData/Jenkins/.jenkins/workspace/docker-based-jenkins-agent:/workspace -w /workspace') {
                         // Set working directory correctly
-                        def workingDir = 'C:/ProgramData/Jenkins/.jenkins/workspace/docker-based-jenkins-agent/'
+                        sh 'echo Running inside container at: /workspace'
 
                         // Run tasks inside the container
-                        sh "echo 'Running in container working dir: ${workingDir}'"
                         sh 'mvn clean install'
                         sh 'mvn test'
                     }
