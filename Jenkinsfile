@@ -8,9 +8,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    credentialsId: 'github-ssh-key',
-                    url: 'git@github.com:Rohanunq/DevOps-Assignment.git'
+                // Checkout your source code from version control
+                git 'https://github.com/Rohanunq/docker-based-jenkins-agent.git' // Replace with your repository URL
             }
         }
         stage('Build') {
